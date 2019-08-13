@@ -25,6 +25,7 @@ dependencies:
   cupertino_icons: ^0.1.2
   intl: ^0.15.8
   font_awesome_flutter: ^8.5.0
+  fl_chart: ^0.1.5
 
 dev_dependencies:
   flutter_test:
@@ -75,3 +76,8 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: fonts/Lato-Bold.ttf
+        - asset: fonts/Lato-Regular.ttf
