@@ -11,9 +11,9 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   var date = DateTime.now();
 
-  final Color barColor = Colors.white;
-  final Color barBackgroundColor = const Color(0xff72d8bf);
-  final double width = 22;
+  final Color barColor = Color(0xFF0DA0E2);
+  final Color barBackgroundColor = const Color(0xff1C45A6);
+  final double width = 8;
 
   List<BarChartGroupData> rawBarGroups;
   List<BarChartGroupData> showingBarGroups;
@@ -45,6 +45,11 @@ class _HomePageState extends State<HomePage> {
     showingBarGroups = rawBarGroups;
   }
 
+  List<Color> gradientColors = [
+    Color(0xff23b6e6),
+    Color(0xff02d39a),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,71 +57,168 @@ class _HomePageState extends State<HomePage> {
       body: Column(
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(
+                left: 30.0, right: 20.0, top: 50.0, bottom: 10.0),
             width: double.infinity,
             height: 300.0,
-            decoration: BoxDecoration(color: Colors.blue[800]),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: FlChart(
-                chart: BarChart(BarChartData(
-                  barTouchData: BarTouchData(
-                    touchTooltipData: TouchTooltipData(
-                        tooltipBgColor: Colors.blueGrey,
-                        getTooltipItems: (touchedSpots) {
-                          return touchedSpots.map((touchedSpot) {
-                            String weekDay;
-                            switch (touchedSpot.spot.x.toInt()) {
-                              case 0: weekDay = 'Monday'; break;
-                              case 1: weekDay = 'Tuesday'; break;
-                              case 2: weekDay = 'Wednesday'; break;
-                              case 3: weekDay = 'Thursday'; break;
-                              case 4: weekDay = 'Friday'; break;
-                              case 5: weekDay = 'Saturday'; break;
-                              case 6: weekDay = 'Sunday'; break;
-                            }
-                            return TooltipItem(weekDay + '\n' + touchedSpot.spot.y.toString(), TextStyle(color: Colors.yellow));
-                          }).toList();
-                        }
+            decoration: BoxDecoration(color: Color(0xFF1F49AF)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    IntrinsicHeight(
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            '5 748 ',
+                            style: TextStyle(
+                              fontFamily: 'Lato',
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Text(
+                              ' steps',
+                              style: TextStyle(
+                                fontFamily: 'Lato',
+                                color: Colors.white,
+                                fontSize: 16.0,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Icon(
+                            Icons.directions_walk,
+                            color: Colors.white,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          '4.9 km',
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            color: Colors.white,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 20.0,
+                        ),
+                        Text(
+                          '1000  kcal',
+                          style: TextStyle(
+                            fontFamily: 'Lato',
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                AspectRatio(
+                  aspectRatio: 2.0,
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          right: 10.0, top: 24, bottom: 12),
+                      child: FlChart(
+                        chart: LineChart(
+                          LineChartData(
+                            gridData: FlGridData(
+                              show: false,
+                            ),
+                            titlesData: FlTitlesData(
+                              show: true,
+                              bottomTitles: SideTitles(
+                                showTitles: true,
+                                reservedSize: 15,
+                                textStyle: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16),
+                                getTitles: (value) {
+                                  switch (value.toInt()) {
+                                    case 0:
+                                      return 'P';
+                                    case 1:
+                                      return 'A';
+                                    case 2:
+                                      return 'T';
+                                    case 3:
+                                      return 'K';
+                                    case 4:
+                                      return 'Pn';
+                                    case 5:
+                                      return 'Š';
+                                    case 6:
+                                      return 'S';
+                                  }
+
+                                  return '';
+                                },
+                                margin: 12,
+                              ),
+                              leftTitles: SideTitles(
+                                showTitles: false,
+                              ),
+                            ),
+                            borderData: FlBorderData(
+                                show: false,
+                                border: Border.all(
+                                    color: Color(0xff37434d), width: 1)),
+                            minX: 0,
+                            maxX: 6,
+                            minY: 0,
+                            maxY: 6,
+                            lineBarsData: [
+                              LineChartBarData(
+                                spots: [
+                                  FlSpot(0, 3),
+                                  FlSpot(1, 2),
+                                  FlSpot(2, 5),
+                                  FlSpot(3, 3.1),
+                                  FlSpot(4, 4),
+                                  FlSpot(5, 3),
+                                  FlSpot(6, 4),
+                                ],
+                                isCurved: true,
+                                colors: gradientColors,
+                                barWidth: 5,
+                                isStrokeCapRound: true,
+                                dotData: FlDotData(
+                                  show: false,
+                                ),
+                                belowBarData: BelowBarData(
+                                  show: true,
+                                  colors: gradientColors
+                                      .map((color) => color.withOpacity(0.3))
+                                      .toList(),
+                                ),
+                              ),
+                            ],
+                            lineTouchData: LineTouchData(
+                              enabled: true,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                  titlesData: FlTitlesData(
-                    show: true,
-                    bottomTitles: SideTitles(
-                        showTitles: true,
-                        textStyle: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold, fontSize: 14),
-                        margin: 16,
-                        getTitles: (double value) {
-                          switch (value.toInt()) {
-                            case 0:
-                              return 'M';
-                            case 1:
-                              return 'T';
-                            case 2:
-                              return 'W';
-                            case 3:
-                              return 'T';
-                            case 4:
-                              return 'F';
-                            case 5:
-                              return 'S';
-                            case 6:
-                              return 'S';
-                          }
-                        }
-                    ),
-                    leftTitles: SideTitles(showTitles: false,),
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  barGroups: showingBarGroups,
-                )),
-              ),
+                ),
+              ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+            padding: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -207,6 +309,7 @@ class _HomePageState extends State<HomePage> {
                                             style: TextStyle(
                                               color: Colors.white,
                                               fontFamily: 'Lato',
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
@@ -227,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsets.only(right: 6.0),
+                                              const EdgeInsets.only(right: 8.0),
                                           child: Text(
                                             '-00:18',
                                             style: TextStyle(
@@ -253,7 +356,7 @@ class _HomePageState extends State<HomePage> {
                     height: 20.0,
                   );
                 },
-                itemCount: 2,
+                itemCount: 3,
               ),
             ),
           ),
@@ -319,5 +422,3 @@ class _BtmNavBarState extends State<BtmNavBar> {
     );
   }
 }
-
-
