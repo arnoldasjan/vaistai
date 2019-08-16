@@ -77,7 +77,7 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
   fonts:
-    - family: Lato
+    - family: Noto Sans
       fonts:
-        - asset: fonts/Lato-Bold.ttf
-        - asset: fonts/Lato-Regular.ttf
+        - asset: fonts/NotoSans-Bold.ttf
+        - asset: fonts/NotoSans-Regular.ttf

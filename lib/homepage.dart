@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'dart:async';
+import 'bottomnavigationbar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,40 +10,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   var date = DateTime.now();
 
   final Color barColor = Color(0xFF0DA0E2);
   final Color barBackgroundColor = const Color(0xff1C45A6);
   final double width = 8;
 
-  List<BarChartGroupData> rawBarGroups;
-  List<BarChartGroupData> showingBarGroups;
+  StreamController<LineTouchResponse> controller;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    final barGroup1 = makeGroupData(0, 5);
-    final barGroup2 = makeGroupData(1, 6.5);
-    final barGroup3 = makeGroupData(2, 5);
-    final barGroup4 = makeGroupData(3, 7.5);
-    final barGroup5 = makeGroupData(4, 9);
-    final barGroup6 = makeGroupData(5, 11.5);
-    final barGroup7 = makeGroupData(6, 6.5);
 
-    final items = [
-      barGroup1,
-      barGroup2,
-      barGroup3,
-      barGroup4,
-      barGroup5,
-      barGroup6,
-      barGroup7,
-    ];
-
-    rawBarGroups = items;
-
-    showingBarGroups = rawBarGroups;
+    controller = StreamController();
+    controller.stream.distinct().listen((LineTouchResponse response) {
+      print('response: ${response.touchInput}');
+    });
   }
 
   List<Color> gradientColors = [
@@ -133,6 +118,13 @@ class _HomePageState extends State<HomePage> {
                       child: FlChart(
                         chart: LineChart(
                           LineChartData(
+                            lineTouchData: LineTouchData(
+                              touchResponseSink: controller.sink,
+                              touchTooltipData: TouchTooltipData(
+                                tooltipBgColor:
+                                    Colors.black,
+                              ),
+                            ),
                             gridData: FlGridData(
                               show: false,
                             ),
@@ -195,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                                 barWidth: 5,
                                 isStrokeCapRound: true,
                                 dotData: FlDotData(
-                                  show: false,
+                                  show: true,
                                 ),
                                 belowBarData: BelowBarData(
                                   show: true,
@@ -205,9 +197,6 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                             ],
-                            lineTouchData: LineTouchData(
-                              enabled: true,
-                            ),
                           ),
                         ),
                       ),
@@ -366,59 +355,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  BarChartGroupData makeGroupData(int x, double y) {
-    return BarChartGroupData(x: x, barRods: [
-      BarChartRodData(
-        y: y,
-        color: barColor,
-        width: width,
-        isRound: true,
-        backDrawRodData: BackgroundBarChartRodData(
-          show: true,
-          y: 20,
-          color: barBackgroundColor,
-        ),
-      ),
-    ]);
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controller.close();
   }
 }
 
-class BtmNavBar extends StatefulWidget {
-  @override
-  _BtmNavBarState createState() => _BtmNavBarState();
-}
 
-class _BtmNavBarState extends State<BtmNavBar> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20.0),
-      height: 100.0,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          IconButton(
-            icon: Icon(
-              FontAwesomeIcons.flag,
-              color: Colors.blue,
-            ),
-          ),
-          IconButton(icon: Icon(FontAwesomeIcons.link)),
-          Container(
-            height: 80.0,
-            width: 80.0,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: IconButton(
-              icon: Icon(FontAwesomeIcons.plus),
-            ),
-          ),
-          IconButton(icon: Icon(FontAwesomeIcons.bell)),
-          IconButton(icon: Icon(FontAwesomeIcons.user)),
-        ],
-      ),
-    );
-  }
-}
