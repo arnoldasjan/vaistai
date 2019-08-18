@@ -37,7 +37,9 @@ class _AddPillsState extends State<AddPills> {
                         size: 30.0,
                         color: Colors.grey[800],
                       ),
-                      onPressed: null)
+                      onPressed: () {
+                        Navigator.pop(context);
+                      })
                 ],
               ),
               Padding(
@@ -61,7 +63,7 @@ class _AddPillsState extends State<AddPills> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('Pills name', style: _kTextFieldNameStyle),
+                        Text('Vaistų pavadinimas', style: _kTextFieldNameStyle),
                       ],
                     ),
                     SizedBox(
@@ -102,7 +104,7 @@ class _AddPillsState extends State<AddPills> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('Amount', style: _kTextFieldNameStyle),
+                        Text('Kiekis', style: _kTextFieldNameStyle),
                       ],
                     ),
                     SizedBox(
@@ -110,7 +112,7 @@ class _AddPillsState extends State<AddPills> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('How many pills do you need to take at once?',
+                        Text('Kiek tablečių sudaro viena dozė?',
                             style: _kDescriptionTextStyle),
                       ],
                     ),
@@ -142,7 +144,7 @@ class _AddPillsState extends State<AddPills> {
                                       Icons.remove,
                                       color: Colors.white,
                                     ),
-                                    onPressed: (){
+                                    onPressed: () {
                                       setState(() {
                                         if (_numberOfPills > 0.5) {
                                           _numberOfPills -= 0.5;
@@ -188,7 +190,7 @@ class _AddPillsState extends State<AddPills> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('Duration', style: _kTextFieldNameStyle),
+                        Text('Trukmė', style: _kTextFieldNameStyle),
                       ],
                     ),
                     SizedBox(
@@ -196,7 +198,7 @@ class _AddPillsState extends State<AddPills> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('How many days do you need to take the pills?',
+                        Text('Kiek dienų vartosite vaistus?',
                             style: _kDescriptionTextStyle),
                       ],
                     ),
@@ -218,7 +220,7 @@ class _AddPillsState extends State<AddPills> {
                               color: Colors.black),
                           contentPadding: EdgeInsets.only(
                               top: 15.0, left: 20.0, bottom: 15.0),
-                          hintText: '14 days',
+                          hintText: '14',
                           hintStyle: TextStyle(
                             fontSize: 24.0,
                             fontFamily: 'Noto Sans',
@@ -238,7 +240,7 @@ class _AddPillsState extends State<AddPills> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('Time', style: _kTextFieldNameStyle),
+                        Text('Laikas', style: _kTextFieldNameStyle),
                       ],
                     ),
                     SizedBox(
@@ -246,9 +248,36 @@ class _AddPillsState extends State<AddPills> {
                     ),
                     Row(
                       children: <Widget>[
-                        Text('Add time when you need to take the pills',
+                        Text('Nustatytkite kokiu laiku gersite vaistus',
                             style: _kDescriptionTextStyle),
                       ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20.0),
+                      child: TextFormField(
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 30.0,
+                          fontFamily: 'Lato',
+                          color: Colors.black,
+                        ),
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(
+                              top: 15.0, left: 20.0, bottom: 15.0),
+                          hintText: '06:00',
+                          hintStyle: TextStyle(
+                            fontSize: 30.0,
+                            fontFamily: 'Noto Sans',
+                            color: Colors.black,
+                          ),
+                          filled: true,
+                          fillColor: Colors.white,
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.0)),
+                              borderSide: BorderSide.none),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -256,6 +285,62 @@ class _AddPillsState extends State<AddPills> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: BottomNavBar(),
+    );
+  }
+}
+
+class BottomNavBar extends StatefulWidget {
+  @override
+  _BottomNavBarState createState() => _BottomNavBarState();
+}
+
+class _BottomNavBarState extends State<BottomNavBar> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 30.0),
+      height: 90.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 20.0),
+            child: Container(
+              height: 60.0,
+              width: 60.0,
+              decoration: BoxDecoration(
+                color: Color(0xFF1F49AF).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: IconButton(
+                  icon: Icon(
+                    FontAwesomeIcons.clock,
+                    color: Color(0xFF1F49AF),
+                  ),
+                  onPressed: null),
+            ),
+          ),
+          Expanded(
+            child: RaisedButton(
+              onPressed: () {},
+              textColor: Colors.white,
+              padding: const EdgeInsets.all(0.0),
+              child: Container(
+                height: 60.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  color: Color(0xFF1F49AF),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 30.0),
+                child: Center(child: Text('Nustatyti', style: TextStyle(fontSize: 24), textAlign: TextAlign.center,)),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
